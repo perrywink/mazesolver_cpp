@@ -31,6 +31,8 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    //Print NodeList
+    void printNodeList();
 
 
 private:

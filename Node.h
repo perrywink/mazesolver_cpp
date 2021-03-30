@@ -32,6 +32,9 @@ public:
     //Node Copy Constructor
     Node(Node& other);
 
+    //print Node 
+    void printNode();
+
 
 private:
     /*                                           */

@@ -39,3 +39,11 @@ void NodeList::addElement(Node* newPos) {
 Node* NodeList::getNode(int i) {
     return nodes[i];
 }
+
+//Additional Methods
+void NodeList::printNodeList() {
+    for (int i = 0; i < this->length; i++)
+    {
+        nodes[i]->printNode();
+    }
+};

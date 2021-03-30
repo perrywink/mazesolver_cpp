@@ -38,10 +38,15 @@ int Node::getEstimatedDist2Goal(Node* goal) {
 }
 
 //Additional Methods
-//Node Copy Constructor
 Node::Node(Node& other) {
     this->row = other.getRow();
     this->col = other.getCol();
+};
+
+void Node::printNode() {
+    std::cout << "Node - row: " << this->row
+        << ", col: " << this->col
+        << ", dist_traveled:" << this->dist_traveled << std::endl;
 };
 
 //--------------------------------                             

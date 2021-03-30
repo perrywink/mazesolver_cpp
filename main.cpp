@@ -20,20 +20,20 @@ void readEnvStdin(Env env);
 void printEnvStdout(Env env, NodeList* solution);
 
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
     // THESE ARE SOME EXAMPLE FUNCTIONS TO HELP TEST YOUR CODE
     // AS YOU WORK ON MILESTONE 2. YOU CAN UPDATE THEM YOURSELF
     // AS YOU GO ALONG.
     // COMMENT THESE OUT BEFORE YOU SUBMIT!!!
-    std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
-    testNode();
-    testNodeList();
-    std::cout << "DONE TESTING" << std::endl << std::endl;
+    // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
+    // testNode();
+    // testNodeList();
+    // std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
     Env env;
     readEnvStdin(env);
-    
+
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
     PathSolver* pathSolver = new PathSolver();
@@ -54,7 +54,7 @@ int main(int argc, char** argv){
 
 }
 
-void readEnvStdin(Env env){
+void readEnvStdin(Env env) {
     //TODO 
 }
 
@@ -105,4 +105,7 @@ void testNodeList() {
 
     // Print out the NodeList
     std::cout << "PRINTING OUT A NODELIST IS AN EXERCISE FOR YOU TO DO" << std::endl;
+    nodeList->printNodeList();
+
+    delete nodeList;
 }
