@@ -39,7 +39,7 @@ int Node::getEstimatedDist2Goal(Node* goal) {
 
 //Additional Methods
 //Node Copy Constructor
-Node(Node& other) {
+Node::Node(Node& other) {
     this->row = other.getRow();
     this->col = other.getCol();
 };
