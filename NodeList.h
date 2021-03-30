@@ -4,7 +4,7 @@
 #include "Types.h"
 #include "Node.h"
 
-class NodeList{
+class NodeList {
 public:
     /*                                           */
     /* DO NOT MOFIFY ANY CODE IN THIS SECTION    */
@@ -30,7 +30,7 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    
+
 
 
 private:

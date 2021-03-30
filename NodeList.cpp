@@ -1,26 +1,41 @@
 #include "NodeList.h"
 #include <iostream>
 
-NodeList::NodeList(){
-    // TODO
+NodeList::NodeList() {
+    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+    {
+        nodes[i] = nullptr;
+    }
 }
 
-NodeList::~NodeList(){
-    // TODO
+NodeList::~NodeList() {
+    //nodes cleanup
+    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+    {
+        if (nodes[i] != nullptr) {
+            delete nodes[i];
+        };
+    }
 }
 
-NodeList::NodeList(NodeList& other){
-    // TODO
+NodeList::NodeList(NodeList& other) {
+    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+    {
+        //Deep copy of nodes
+        nodes[i] = new Node(*other.getNode(i));
+    }
 }
 
-int NodeList::getLength(){
-    // TODO
+int NodeList::getLength() {
+    return this->length;
 }
 
-void NodeList::addElement(Node* newPos){
-    // TODO
+void NodeList::addElement(Node* newPos) {
+    //Append node ptr to end of array
+    nodes[this->length] = newPos;
+    ++(this->length);
 }
 
-Node* NodeList::getNode(int i){
-    // TODO
+Node* NodeList::getNode(int i) {
+    return nodes[i];
 }
