@@ -3,7 +3,7 @@
 
 #include "Types.h"
 
-class Node{
+class Node {
 public:
     /*                                           */
     /* DO NOT MOFIFY ANY CODE IN THIS SECTION    */
@@ -29,6 +29,8 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+    //Node Copy Constructor
+    Node(Node& other);
 
 
 private:
