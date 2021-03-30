@@ -49,4 +49,13 @@ void Node::printNode() {
         << ", dist_traveled:" << this->dist_traveled << std::endl;
 };
 
+bool Node::equals(Node& other) {
+    bool isEqual = false;
+    if (this->row == other.getRow() &&
+        this->col == other.getCol())
+    {
+        isEqual = true;
+    }
+    return isEqual;
+};
 //--------------------------------                             

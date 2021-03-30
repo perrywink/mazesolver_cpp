@@ -47,3 +47,11 @@ void NodeList::printNodeList() {
         nodes[i]->printNode();
     }
 };
+
+bool NodeList::isEqualLength(NodeList& other) {
+    bool isEqualLength = false;
+    if (this->length == other.getLength()) {
+        isEqualLength = true;
+    }
+    return isEqualLength;
+};

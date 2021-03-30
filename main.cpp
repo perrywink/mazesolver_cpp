@@ -39,27 +39,60 @@ int main(int argc, char** argv) {
     PathSolver* pathSolver = new PathSolver();
     pathSolver->forwardSearch(env);
 
-    NodeList* exploredPositions = nullptr;
-    exploredPositions = pathSolver->getNodesExplored();
+    // NodeList* exploredPositions = nullptr;
+    // exploredPositions = pathSolver->getNodesExplored();
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    NodeList* solution = pathSolver->getPath(env);
+    // NodeList* solution = pathSolver->getPath(env);
 
-    printEnvStdout(env, solution);
+    // printEnvStdout(env, solution);
 
     delete pathSolver;
-    delete exploredPositions;
-    delete solution;
+    // delete exploredPositions;
+    // delete solution;
 
 }
 
 void readEnvStdin(Env env) {
-    //TODO 
+    for (int row = 0; row < ENV_DIM && !std::cin.eof(); row++)
+    {
+        for (int col = 0; col < ENV_DIM; col++)
+        {
+            std::cin >> env[row][col];
+        }
+    }
 }
 
 void printEnvStdout(Env env, NodeList* solution) {
-    //TODO
+    //currNode and nextNode's memory will be handled when delete solution is called
+    Node* currNode;
+    Node* nextNode;
+    //Solution assumes startNode and goalNode are included
+    //i = 1 to start at node after startNode
+    //getLength() - 1 to stop the iteration 1 node short of goalNode
+    for (int i = 1; i < solution->getLength() - 1; i++)
+    {
+        //decide which character to assign env[row][col]
+        currNode = solution->getNode(i);
+        nextNode = solution->getNode(i + 1);
+
+        if (nextNode->getRow() - currNode->getRow() == -1) {
+            env[currNode->getRow()][currNode->getCol()] = SYMBOL_UP;
+        }
+        else if (nextNode->getRow() - currNode->getRow() == 1) {
+            env[currNode->getRow()][currNode->getCol()] = SYMBOL_DOWN;
+        }
+        else if (nextNode->getCol() - currNode->getCol() == 1) {
+            env[currNode->getRow()][currNode->getCol()] = SYMBOL_RIGHT;
+        }
+        else if (nextNode->getCol() - currNode->getCol() == -1) {
+            env[currNode->getRow()][currNode->getCol()] = SYMBOL_LEFT;
+        }
+        else {
+            std::cout << "Error: Unprintable Direction" << std::endl;
+        }
+    }
 }
 
 void testNode() {

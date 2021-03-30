@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.html.erb": "html",
+        "ostream": "cpp",
+        "string_view": "cpp"
+    }
+}

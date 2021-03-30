@@ -5,7 +5,7 @@
 #include "NodeList.h"
 #include "Types.h"
 
-class PathSolver{
+class PathSolver {
 public:
     /*                                           */
     /* DO NOT MOFIFY ANY CODE IN THIS SECTION    */
@@ -31,6 +31,7 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+    bool findNode(Env env, char targetNod, Node* foundNode);
 
 private:
     /*                                           */
@@ -43,7 +44,7 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    
+
 };
 
 

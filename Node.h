@@ -35,6 +35,9 @@ public:
     //print Node 
     void printNode();
 
+    //compares node equality
+    bool equals(Node& other);
+
 
 private:
     /*                                           */

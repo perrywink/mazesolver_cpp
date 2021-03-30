@@ -34,6 +34,9 @@ public:
     //Print NodeList
     void printNodeList();
 
+    //Checks if 2 nodelists have the same nodes
+    bool isEqualLength(NodeList& other);
+
 
 private:
     /*                                           */
