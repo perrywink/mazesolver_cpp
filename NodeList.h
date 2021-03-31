@@ -37,6 +37,7 @@ public:
     //Check if all nodes in NodeList is in closedList
     bool checkAllVisited();
 
+    bool contains(Node* node);
 
 private:
     /*                                           */

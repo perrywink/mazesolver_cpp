@@ -22,4 +22,11 @@ typedef char Env[ENV_DIM][ENV_DIM];
 #define SYMBOL_LEFT    '<'
 #define SYMBOL_RIGHT   '>'
 
+enum Direction {
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT
+};
+
 #endif // COSC_ASSIGN_ONE_TYPES

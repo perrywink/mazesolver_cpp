@@ -32,7 +32,7 @@ int NodeList::getLength() {
 
 void NodeList::addElement(Node* newPos) {
     //Append node ptr to end of array
-    nodes[this->length] = newPos;
+    nodes[this->length] = new Node(*newPos);
     ++(this->length);
 }
 
@@ -48,14 +48,25 @@ void NodeList::printNodeList() {
     }
 };
 
-bool NodeList::checkAllVisited(){
+bool NodeList::checkAllVisited() {
     bool allVisited = true;
     for (int i = 0; i < this->length; i++)
     {
-        if (nodes[i]->getIsVisited() == false){
+        if (nodes[i]->getIsVisited() == false) {
             allVisited = false;
         }
     }
     return allVisited;
-    
+
+}
+
+bool NodeList::contains(Node* node) {
+    bool contains = false;
+    for (int i = 0; i < this->length; i++)
+    {
+        if (this->nodes[i]->equals(*node)) {
+            contains = true;
+        }
+    }
+    return contains;
 }

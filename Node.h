@@ -40,8 +40,14 @@ public:
 
     bool getIsVisited();
 
-    //sets flag for checking if node is in closed list
+    //Sets flag for checking if node is in closed list
     void setIsVisited(bool isVisited);
+
+    bool isWall(Env env);
+
+    bool isValidAdjNode(Env env);
+
+    bool getAdjNode(Direction direction, Node** adjNode);
 
 
 private:

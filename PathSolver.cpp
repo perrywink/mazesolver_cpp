@@ -19,7 +19,7 @@ void PathSolver::forwardSearch(Env env) {
     NodeList* openList = nullptr;
     NodeList* closedList = nullptr;
     Node* nodeP = nullptr;
-    // Node* nodeQ = nullptr;
+    Node* nodeQ = nullptr;
 
     //only execute the algo if start and goal nodes found
     if (foundStart && foundGoal) {
@@ -30,36 +30,41 @@ void PathSolver::forwardSearch(Env env) {
 
         openList->addElement(startNode);
 
-
-        //test findNextNodeP
-        Node* testGoalNode = new Node(1, 3, 0);
-
-        NodeList* testList = new NodeList();
-        Node* testNode1 = new Node(3, 1, 0);
-        Node* testNode2 = new Node(3, 2, 1);
-        testList->addElement(testNode1);
-        testNode1->setIsVisited(true);
-        testList->addElement(testNode2);
-        testNode2->setIsVisited(true);
-        testList->addElement(new Node(4, 2, 2));
-        Node* testNode3 = new Node(2, 2, 2);
-        // testNode3->setIsVisited(true);
-        testList->addElement(testNode3);
-        testList->addElement(new Node(3, 3, 2));
-
-        //maybe check for if openList is "empty" or not
         do {
-            // if (findNextNodeP(&nodeP, openList, goalNode)) {
-            if (findNextNodeP(&nodeP, testList, testGoalNode)) {
-                nodeP->printNode();
+            if (findNextNodeP(&nodeP, openList, goalNode)) {
+                std::cout << "Node P: " << std::endl;
+
+
+
+                // iterate adjacent nodes clockwise
+                for (int direction = UP; direction <= LEFT; direction++)
+                {
+                    //Assigns adjacent node to nodeQ
+                    if (nodeP->getAdjNode(convertIntToDir(direction), &nodeQ)) {
+                        // nodeQ->printNode();
+                        if (nodeQ->isValidAdjNode(env) && !openList->contains(nodeQ)) {
+                            // std::cout << "Node Q: " << std::endl;
+                            nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
+                            openList->addElement(nodeQ);
+                        };
+                    };
+                };
+                nodeP->setIsVisited(true);
+
+                closedList->addElement(nodeP);
             };
-        } while (!nodeP->equals(*goalNode) || !openList->checkAllVisited());
+
+            nodeP->printNode();
+
+        } while (!(nodeP->equals(*goalNode)) && !(openList->checkAllVisited()));
+
+        closedList->printNodeList();
 
     }
 
     delete startNode;
     delete goalNode;
-    delete openList;
+    // delete openList;
     delete closedList;
 
 }
@@ -116,5 +121,28 @@ bool PathSolver::findNextNodeP(Node** nodeP, NodeList* openList, Node* goalNode)
 
     return foundNodeP;
 };
+
+Direction PathSolver::convertIntToDir(int dirInt) {
+    //Set to default value of UP first
+    Direction direction = UP;
+    if (dirInt == 0) {
+        direction = UP;
+    }
+    else if (dirInt == 1) {
+        direction = RIGHT;
+    }
+    else if (dirInt == 2) {
+        direction = DOWN;
+    }
+    else if (dirInt == 3) {
+        direction = LEFT;
+    }
+    else {
+        std::cout << "Error: No Such Direction";
+    }
+
+    return direction;
+};
+
 
 //-----------------------------

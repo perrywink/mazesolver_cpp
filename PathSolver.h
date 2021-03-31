@@ -45,6 +45,8 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+    //private helper method to convert int into direction 
+    Direction convertIntToDir(int dirInt);
 
 };
 
