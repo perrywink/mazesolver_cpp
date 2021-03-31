@@ -34,8 +34,8 @@ public:
     //Print NodeList
     void printNodeList();
 
-    //Checks if 2 nodelists have the same nodes
-    bool isEqualLength(NodeList& other);
+    //Check if all nodes in NodeList is in closedList
+    bool checkAllVisited();
 
 
 private:

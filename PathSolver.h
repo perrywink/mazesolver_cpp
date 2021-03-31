@@ -31,7 +31,9 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    bool findNode(Env env, char targetNod, Node* foundNode);
+    bool findNodeInEnv(Env env, char targetNod, Node* foundNode);
+
+    bool PathSolver::findNextNodeP(Node* nodeP, NodeList* openList, Node* goalNode);
 
 private:
     /*                                           */

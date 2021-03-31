@@ -48,10 +48,14 @@ void NodeList::printNodeList() {
     }
 };
 
-bool NodeList::isEqualLength(NodeList& other) {
-    bool isEqualLength = false;
-    if (this->length == other.getLength()) {
-        isEqualLength = true;
+bool NodeList::checkAllVisited(){
+    bool allVisited = true;
+    for (int i = 0; i < this->length; i++)
+    {
+        if (nodes[i]->getIsVisited() == false){
+            allVisited = false;
+        }
     }
-    return isEqualLength;
-};
+    return allVisited;
+    
+}

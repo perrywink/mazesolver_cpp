@@ -38,6 +38,11 @@ public:
     //compares node equality
     bool equals(Node& other);
 
+    bool getIsVisited();
+
+    //sets flag for checking if node is in closed list
+    bool setIsVisited(bool isVisited);
+
 
 private:
     /*                                           */
@@ -51,6 +56,7 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+    bool isVisited;
 
 };
 

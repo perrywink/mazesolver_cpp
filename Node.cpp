@@ -7,6 +7,7 @@ Node::Node(int row, int col, int dist_traveled)
     this->row = row;
     this->col = col;
     this->dist_traveled = dist_traveled;
+    this->isVisited = false;
 }
 
 Node::~Node() {
@@ -58,4 +59,12 @@ bool Node::equals(Node& other) {
     }
     return isEqual;
 };
+
+bool Node::getIsVisited(){
+    return this->isVisited;
+}
+
+bool Node::setIsVisited(bool isVisited){
+    this->isVisited = isVisited;
+}
 //--------------------------------                             

@@ -13,8 +13,8 @@ void PathSolver::forwardSearch(Env env) {
     Node* startNode = nullptr;
     Node* goalNode = nullptr;
 
-    bool foundStart = findNode(env, SYMBOL_START, startNode);
-    bool foundGoal = findNode(env, SYMBOL_GOAL, goalNode);
+    bool foundStart = findNodeInEnv(env, SYMBOL_START, startNode);
+    bool foundGoal = findNodeInEnv(env, SYMBOL_GOAL, goalNode);
 
     NodeList* openList = nullptr;
     NodeList* closedList = nullptr;
@@ -30,10 +30,10 @@ void PathSolver::forwardSearch(Env env) {
 
         openList->addElement(startNode);
 
-        //The 2 nodelists will never have the same length unless all the nodes have been explored
-        //i.e. No more nodes to add and all nodes have been visited
-        while (!nodeP->equals(*goalNode) || !openList->isEqualLength(*closedList)) {
+        //maybe check for if openList is "empty" or not
+        while (!nodeP->equals(*goalNode) || !openList->checkAllVisited()) {
 
+            
         }
 
     }
@@ -56,7 +56,7 @@ NodeList* PathSolver::getPath(Env env) {
 
 //Addtional functions
 
-bool PathSolver::findNode(Env env, char targetNode, Node* foundNode) {
+bool PathSolver::findNodeInEnv(Env env, char targetNode, Node* foundNode) {
     bool isFound = false;
     for (int row = 0; row < ENV_DIM && !std::cin.eof(); row++)
     {
@@ -68,8 +68,29 @@ bool PathSolver::findNode(Env env, char targetNode, Node* foundNode) {
             }
         }
     }
-
     return isFound;
+};
+
+bool PathSolver::findNextNodeP(Node* nodeP, NodeList* openList, Node* goalNode){
+    bool foundNodeP = false;
+    Node* nextNode = nullptr;
+    Node* currNode = nullptr;
+    //FIXME: magic num
+    nodeP = openList->getNode(0);
+    for (int i = 0; i < openList->getLength(); i++)
+    {
+        nextNode = openList->getNode(i+1);
+        currNode = openList->getNode(i);
+        if(currNode->getEstimatedDist2Goal(goalNode) > nextNode->getEstimatedDist2Goal(goalNode)){
+            if (!nextNode->getIsVisited()){
+                
+            }
+        }
+    }
+    delete currNode;
+    delete nextNode;
+
+    return foundNodeP;
 };
 
 //-----------------------------
