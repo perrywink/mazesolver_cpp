@@ -41,7 +41,7 @@ public:
     bool getIsVisited();
 
     //sets flag for checking if node is in closed list
-    bool setIsVisited(bool isVisited);
+    void setIsVisited(bool isVisited);
 
 
 private:

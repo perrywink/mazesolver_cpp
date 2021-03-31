@@ -13,13 +13,13 @@ void PathSolver::forwardSearch(Env env) {
     Node* startNode = nullptr;
     Node* goalNode = nullptr;
 
-    bool foundStart = findNodeInEnv(env, SYMBOL_START, startNode);
-    bool foundGoal = findNodeInEnv(env, SYMBOL_GOAL, goalNode);
+    bool foundStart = findNodeInEnv(env, SYMBOL_START, &startNode);
+    bool foundGoal = findNodeInEnv(env, SYMBOL_GOAL, &goalNode);
 
     NodeList* openList = nullptr;
     NodeList* closedList = nullptr;
     Node* nodeP = nullptr;
-    Node* nodeQ = nullptr;
+    // Node* nodeQ = nullptr;
 
     //only execute the algo if start and goal nodes found
     if (foundStart && foundGoal) {
@@ -30,11 +30,30 @@ void PathSolver::forwardSearch(Env env) {
 
         openList->addElement(startNode);
 
-        //maybe check for if openList is "empty" or not
-        while (!nodeP->equals(*goalNode) || !openList->checkAllVisited()) {
 
-            
-        }
+        //test findNextNodeP
+        Node* testGoalNode = new Node(1, 3, 0);
+
+        NodeList* testList = new NodeList();
+        Node* testNode1 = new Node(3, 1, 0);
+        Node* testNode2 = new Node(3, 2, 1);
+        testList->addElement(testNode1);
+        testNode1->setIsVisited(true);
+        testList->addElement(testNode2);
+        testNode2->setIsVisited(true);
+        testList->addElement(new Node(4, 2, 2));
+        Node* testNode3 = new Node(2, 2, 2);
+        // testNode3->setIsVisited(true);
+        testList->addElement(testNode3);
+        testList->addElement(new Node(3, 3, 2));
+
+        //maybe check for if openList is "empty" or not
+        do {
+            // if (findNextNodeP(&nodeP, openList, goalNode)) {
+            if (findNextNodeP(&nodeP, testList, testGoalNode)) {
+                nodeP->printNode();
+            };
+        } while (!nodeP->equals(*goalNode) || !openList->checkAllVisited());
 
     }
 
@@ -56,7 +75,7 @@ NodeList* PathSolver::getPath(Env env) {
 
 //Addtional functions
 
-bool PathSolver::findNodeInEnv(Env env, char targetNode, Node* foundNode) {
+bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode) {
     bool isFound = false;
     for (int row = 0; row < ENV_DIM && !std::cin.eof(); row++)
     {
@@ -64,31 +83,36 @@ bool PathSolver::findNodeInEnv(Env env, char targetNode, Node* foundNode) {
         {
             if (env[row][col] == targetNode) {
                 isFound = true;
-                foundNode = new Node(row, col, 0);
+                *foundNode = new Node(row, col, 0);
             }
         }
     }
     return isFound;
 };
 
-bool PathSolver::findNextNodeP(Node* nodeP, NodeList* openList, Node* goalNode){
-    bool foundNodeP = false;
-    Node* nextNode = nullptr;
-    Node* currNode = nullptr;
-    //FIXME: magic num
-    nodeP = openList->getNode(0);
+bool PathSolver::findNextNodeP(Node** nodeP, NodeList* openList, Node* goalNode) {
+    bool foundNodeP = true;
+    *nodeP = nullptr;
+
     for (int i = 0; i < openList->getLength(); i++)
     {
-        nextNode = openList->getNode(i+1);
-        currNode = openList->getNode(i);
-        if(currNode->getEstimatedDist2Goal(goalNode) > nextNode->getEstimatedDist2Goal(goalNode)){
-            if (!nextNode->getIsVisited()){
-                
+        if (!openList->getNode(i)->getIsVisited()) {
+            if (*nodeP == nullptr) {
+                *nodeP = openList->getNode(i);
+
+            }
+
+            if ((*nodeP)->getEstimatedDist2Goal(goalNode) > openList->getNode(i)->getEstimatedDist2Goal(goalNode)) {
+                *nodeP = openList->getNode(i);
+
             }
         }
     }
-    delete currNode;
-    delete nextNode;
+
+    if (*nodeP == nullptr) {
+        foundNodeP = true;
+    }
+
 
     return foundNodeP;
 };

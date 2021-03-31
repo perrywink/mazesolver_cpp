@@ -34,7 +34,7 @@ void Node::setDistanceTraveled(int dist_traveled)
 int Node::getEstimatedDist2Goal(Node* goal) {
     int rowDiff = this->row - goal->getRow();
     int colDiff = this->col - goal->getCol();
-    int manhDist = abs(rowDiff) - abs(colDiff);
+    int manhDist = abs(rowDiff) + abs(colDiff);
     return manhDist + this->dist_traveled;
 }
 
@@ -60,11 +60,11 @@ bool Node::equals(Node& other) {
     return isEqual;
 };
 
-bool Node::getIsVisited(){
+bool Node::getIsVisited() {
     return this->isVisited;
 }
 
-bool Node::setIsVisited(bool isVisited){
+void Node::setIsVisited(bool isVisited) {
     this->isVisited = isVisited;
 }
 //--------------------------------                             
