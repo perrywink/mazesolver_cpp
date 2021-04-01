@@ -41,6 +41,7 @@ void PathSolver::forwardSearch(Env env) {
                             nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
                             openList->addElement(nodeQ);
                         };
+                        delete nodeQ;
                     };
                 };
                 nodeP->setIsVisited(true);
@@ -52,18 +53,18 @@ void PathSolver::forwardSearch(Env env) {
         } while (!(nodeP->equals(*goalNode)) && !(openList->checkAllVisited()));
 
         if (!(nodeP->equals(*goalNode)) && openList->checkAllVisited()) {
-            std::cout << "No Available Path" << std::endl;
+            std::cout << "Error: No Available Path" << std::endl;
         }
 
-        openList->printNodeList();
+        closedList->printNodeList();
 
     }
 
-    delete nodeP;
-    delete nodeQ;
+    nodeP = nullptr;
+    nodeQ = nullptr;
     delete startNode;
     delete goalNode;
-    // delete openList;
+    delete openList;
     delete closedList;
 
 }
@@ -94,30 +95,30 @@ bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode) {
     return isFound;
 };
 
-bool PathSolver::findNextNodeP(Node** nodeP, NodeList* openList, Node* goalNode) {
+bool PathSolver::findNextNodeP(Node** ptrNodeP, NodeList* openList, Node* goalNode) {
     bool foundNodeP = true;
-    *nodeP = nullptr;
+    *ptrNodeP = nullptr;
 
     for (int i = 0; i < openList->getLength(); i++)
     {
         if (!openList->getNode(i)->getIsVisited()) {
-            if (*nodeP == nullptr) {
-                *nodeP = openList->getNode(i);
+            if (*ptrNodeP == nullptr) {
+                *ptrNodeP = openList->getNode(i);
 
             }
 
-            if ((*nodeP)->getEstimatedDist2Goal(goalNode) > openList->getNode(i)->getEstimatedDist2Goal(goalNode)) {
-                *nodeP = openList->getNode(i);
+            if ((*ptrNodeP)->getEstimatedDist2Goal(goalNode) > openList->getNode(i)->getEstimatedDist2Goal(goalNode)) {
+                *ptrNodeP = openList->getNode(i);
 
             }
         }
     }
 
-    if (*nodeP == nullptr) {
+    if (*ptrNodeP == nullptr) {
         foundNodeP = true;
     }
 
-
+    ptrNodeP = nullptr;
     return foundNodeP;
 };
 

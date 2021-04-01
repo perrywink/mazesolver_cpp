@@ -47,7 +47,7 @@ public:
 
     bool isValidAdjNode(Env env);
 
-    bool getAdjNode(Direction direction, Node** adjNode);
+    bool getAdjNode(Direction direction, Node** adjNodePtr);
 
 
 private:

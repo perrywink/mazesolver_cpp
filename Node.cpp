@@ -87,24 +87,26 @@ bool Node::isValidAdjNode(Env env) {
     return isValid;
 };
 
-bool Node::getAdjNode(Direction direction, Node** adjNode) {
+bool Node::getAdjNode(Direction direction, Node** adjNodePtr) {
     bool adjNodeFound = true;
     if (direction == UP) {
-        *adjNode = new Node(this->row - 1, this->col, this->dist_traveled);
+        *adjNodePtr = new Node(this->row - 1, this->col, this->dist_traveled);
     }
     else if (direction == RIGHT) {
-        *adjNode = new Node(this->row, this->col + 1, this->dist_traveled);
+        *adjNodePtr = new Node(this->row, this->col + 1, this->dist_traveled);
     }
     else if (direction == DOWN) {
-        *adjNode = new Node(this->row + 1, this->col, this->dist_traveled);
+        *adjNodePtr = new Node(this->row + 1, this->col, this->dist_traveled);
     }
     else if (direction == LEFT) {
-        *adjNode = new Node(this->row, this->col - 1, this->dist_traveled);
+        *adjNodePtr = new Node(this->row, this->col - 1, this->dist_traveled);
     }
     else {
         adjNodeFound = false;
         std::cout << "Error: Invalid Direction Given" << std::endl;
     }
+
+    adjNodePtr = nullptr;
     return adjNodeFound;
 };
 
