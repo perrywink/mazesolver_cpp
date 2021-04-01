@@ -32,18 +32,12 @@ void PathSolver::forwardSearch(Env env) {
 
         do {
             if (findNextNodeP(&nodeP, openList, goalNode)) {
-                std::cout << "Node P: " << std::endl;
-
-
-
                 // iterate adjacent nodes clockwise
                 for (int direction = UP; direction <= LEFT; direction++)
                 {
                     //Assigns adjacent node to nodeQ
                     if (nodeP->getAdjNode(convertIntToDir(direction), &nodeQ)) {
-                        // nodeQ->printNode();
                         if (nodeQ->isValidAdjNode(env) && !openList->contains(nodeQ)) {
-                            // std::cout << "Node Q: " << std::endl;
                             nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
                             openList->addElement(nodeQ);
                         };
@@ -54,14 +48,19 @@ void PathSolver::forwardSearch(Env env) {
                 closedList->addElement(nodeP);
             };
 
-            nodeP->printNode();
 
         } while (!(nodeP->equals(*goalNode)) && !(openList->checkAllVisited()));
 
-        closedList->printNodeList();
+        if (!(nodeP->equals(*goalNode)) && openList->checkAllVisited()) {
+            std::cout << "No Available Path" << std::endl;
+        }
+
+        openList->printNodeList();
 
     }
 
+    delete nodeP;
+    delete nodeQ;
     delete startNode;
     delete goalNode;
     // delete openList;

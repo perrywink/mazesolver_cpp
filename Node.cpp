@@ -105,7 +105,6 @@ bool Node::getAdjNode(Direction direction, Node** adjNode) {
         adjNodeFound = false;
         std::cout << "Error: Invalid Direction Given" << std::endl;
     }
-    adjNode = nullptr;
     return adjNodeFound;
 };
 
