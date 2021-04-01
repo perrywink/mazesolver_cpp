@@ -19,11 +19,13 @@ NodeList::~NodeList() {
 }
 
 NodeList::NodeList(NodeList& other) {
-    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+    for (int i = 0; i < other.getLength(); i++)
     {
-        //Deep copy of nodes
+        //Deep copy of nodes and length
         nodes[i] = new Node(*other.getNode(i));
+        this->length = other.getLength();
     }
+
 }
 
 int NodeList::getLength() {

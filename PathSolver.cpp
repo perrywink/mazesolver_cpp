@@ -2,11 +2,11 @@
 #include <iostream>
 
 PathSolver::PathSolver() {
-    // TODO
+    nodesExplored = nullptr;
 }
 
 PathSolver::~PathSolver() {
-    // TODO
+    delete nodesExplored;
 }
 
 void PathSolver::forwardSearch(Env env) {
@@ -55,11 +55,11 @@ void PathSolver::forwardSearch(Env env) {
         if (!(nodeP->equals(*goalNode)) && openList->checkAllVisited()) {
             std::cout << "Error: No Available Path" << std::endl;
         }
-
-        closedList->printNodeList();
-
+        this->nodesExplored = new NodeList(*closedList);
     }
 
+
+    //Memory Cleanup
     nodeP = nullptr;
     nodeQ = nullptr;
     delete startNode;
@@ -70,7 +70,8 @@ void PathSolver::forwardSearch(Env env) {
 }
 
 NodeList* PathSolver::getNodesExplored() {
-    return new NodeList(*this->nodesExplored);
+    NodeList* copyNodesExplored = new NodeList(*this->nodesExplored);
+    return copyNodesExplored;
 }
 
 NodeList* PathSolver::getPath(Env env) {
