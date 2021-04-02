@@ -39,6 +39,8 @@ public:
 
     bool contains(Node* node);
 
+    void addElement(Node* newPos, int index);
+
 private:
     /*                                           */
     /* DO NOT MOFIFY THESE VARIABLES             */

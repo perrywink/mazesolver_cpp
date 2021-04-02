@@ -43,6 +43,7 @@ Node::Node(Node& other) {
     this->row = other.getRow();
     this->col = other.getCol();
     this->dist_traveled = other.getDistanceTraveled();
+    this->isVisited = other.getIsVisited();
 };
 
 void Node::printNode() {
@@ -89,6 +90,8 @@ bool Node::isValidAdjNode(Env env) {
 
 bool Node::getAdjNode(Direction direction, Node** adjNodePtr) {
     bool adjNodeFound = true;
+
+    //Note that this method assumes that the appropiate dist_travelled will be given after
     if (direction == UP) {
         *adjNodePtr = new Node(this->row - 1, this->col, this->dist_traveled);
     }

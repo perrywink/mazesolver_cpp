@@ -38,6 +38,7 @@ void NodeList::addElement(Node* newPos) {
     ++(this->length);
 }
 
+
 Node* NodeList::getNode(int i) {
     return nodes[i];
 }
@@ -72,3 +73,9 @@ bool NodeList::contains(Node* node) {
     }
     return contains;
 }
+
+//Overloads addElement function
+void NodeList::addElement(Node* newPos, int index) {
+    nodes[index] = new Node(*newPos);
+    ++(this->length);
+};

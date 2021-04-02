@@ -41,17 +41,20 @@ int main(int argc, char** argv) {
 
     NodeList* exploredPositions = nullptr;
     exploredPositions = pathSolver->getNodesExplored();
+    std::cout << "Explored positions" << std::endl;
     exploredPositions->printNodeList();
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    // NodeList* solution = pathSolver->getPath(env);
+    NodeList* solution = pathSolver->getPath(env);
+    std::cout << "Solution" << std::endl;
+    solution->printNodeList();
 
     // printEnvStdout(env, solution);
 
     delete pathSolver;
     delete exploredPositions;
-    // delete solution;
+    delete solution;
 
 }
 

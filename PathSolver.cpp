@@ -37,8 +37,8 @@ void PathSolver::forwardSearch(Env env) {
                 {
                     //Assigns adjacent node to nodeQ
                     if (nodeP->getAdjNode(convertIntToDir(direction), &nodeQ)) {
+                        nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
                         if (nodeQ->isValidAdjNode(env) && !openList->contains(nodeQ)) {
-                            nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
                             openList->addElement(nodeQ);
                         };
                         delete nodeQ;
@@ -70,13 +70,41 @@ void PathSolver::forwardSearch(Env env) {
 }
 
 NodeList* PathSolver::getNodesExplored() {
-    NodeList* copyNodesExplored = new NodeList(*this->nodesExplored);
-    return copyNodesExplored;
+    return  new NodeList(*this->nodesExplored);
 }
 
 NodeList* PathSolver::getPath(Env env) {
-    // TODO
-    return nullptr;
+    NodeList* solution = new NodeList();
+    Node* currNode = this->nodesExplored->getNode(nodesExplored->getLength() - 1);
+    Node* nextNode = nullptr;
+    int dist2Goal = currNode->getDistanceTraveled();
+
+    solution->addElement(currNode, dist2Goal);
+
+    for (int i = 1; i <= dist2Goal; i++)
+    {
+        for (int direction = UP; direction <= LEFT; direction++) {
+            //adjNode gets instantiated in getAdjNode
+            if (currNode->getAdjNode(convertIntToDir(direction), &nextNode)) {
+                nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
+                if (nextNode->isValidAdjNode(env))
+                {
+                    if (this->nodesExplored->contains(nextNode) && (nextNode->getDistanceTraveled() == dist2Goal - i))
+                    {
+                        solution->addElement(nextNode, dist2Goal - i);
+                        delete currNode;
+                        currNode = new Node(*nextNode);
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    // delete solution;
+    // solution = nullptr;
+    return solution;
 }
 
 //Addtional functions
