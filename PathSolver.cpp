@@ -74,14 +74,15 @@ NodeList* PathSolver::getNodesExplored() {
 }
 
 NodeList* PathSolver::getPath(Env env) {
-    NodeList* solution = new NodeList();
+    NodeList* solution = nullptr;
     Node* currNode = this->nodesExplored->getNode(nodesExplored->getLength() - 1);
     Node* nextNode = nullptr;
     int dist2Goal = currNode->getDistanceTraveled();
 
-    solution->addElement(currNode, dist2Goal);
+    solution = new NodeList();
+    solution->addElement(currNode);
 
-    for (int i = 1; i <= dist2Goal; i++)
+    for (int i = 0; i < dist2Goal; i++)
     {
         for (int direction = UP; direction <= LEFT; direction++) {
             //adjNode gets instantiated in getAdjNode
@@ -91,8 +92,8 @@ NodeList* PathSolver::getPath(Env env) {
                 {
                     if (this->nodesExplored->contains(nextNode, true))
                     {
-                        nextNode->printNode();
-                        solution->addElement(nextNode, dist2Goal - i);
+                        // nextNode->printNode();
+                        solution->addElement(nextNode);
                         currNode = nullptr;
                         currNode = nextNode;
                         nextNode = nullptr;
@@ -102,6 +103,7 @@ NodeList* PathSolver::getPath(Env env) {
             }
         }
     }
+    solution->reverseNodesArray();
     return solution;
 }
 

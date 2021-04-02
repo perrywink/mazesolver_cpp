@@ -39,7 +39,8 @@ public:
 
     bool contains(Node* node, bool checkDist);
 
-    void addElement(Node* newPos, int index);
+    void reverseNodesArray();
+
 
 private:
     /*                                           */
@@ -56,6 +57,7 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+
 };
 
 

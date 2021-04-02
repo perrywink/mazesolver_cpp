@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/assign1",
-      "args": ["<test/test_dead_ends.env"],
+      "args": ["<test/test_long.env"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],

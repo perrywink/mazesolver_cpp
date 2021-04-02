@@ -6,6 +6,7 @@ NodeList::NodeList() {
     {
         nodes[i] = nullptr;
     }
+    this->length = 0;
 }
 
 NodeList::~NodeList() {
@@ -74,8 +75,13 @@ bool NodeList::contains(Node* node, bool checkDist) {
     return contains;
 }
 
-//Overloads addElement function
-void NodeList::addElement(Node* newPos, int index) {
-    nodes[index] = new Node(*newPos);
-    ++(this->length);
-};
+void NodeList::reverseNodesArray() {
+    Node* tmp = nullptr;
+    for (int low = 0, high = (this->length - 1); low < high; low++, high--) {
+        tmp = nodes[low];
+        nodes[low] = nodes[high];
+        nodes[high] = tmp;
+    }
+    tmp = nullptr;
+
+}

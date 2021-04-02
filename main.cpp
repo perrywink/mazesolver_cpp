@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 
     solution->printNodeList();
 
-    // printEnvStdout(env, solution);
+    printEnvStdout(env, solution);
 
     delete pathSolver;
     delete exploredPositions;
@@ -97,6 +97,15 @@ void printEnvStdout(Env env, NodeList* solution) {
         else {
             std::cout << "Error: Unprintable Direction" << std::endl;
         }
+    }
+
+    for (int row = 0; row < ENV_DIM && !std::cin.eof(); row++)
+    {
+        for (int col = 0; col < ENV_DIM; col++)
+        {
+            std::cout << env[row][col];
+        }
+        std::cout << std::endl;
     }
 }
 
