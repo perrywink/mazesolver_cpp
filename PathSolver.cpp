@@ -76,7 +76,7 @@ NodeList* PathSolver::getNodesExplored() {
 
 NodeList* PathSolver::getPath(Env env) {
     NodeList* solution = new NodeList();
-    Node* currNode = this->nodesExplored->getNode(nodesExplored->getLength() - 1);
+    Node* currNode = new Node(*this->nodesExplored->getNode(nodesExplored->getLength() - 1));
     Node* nextNode = nullptr;
     int dist2Goal = currNode->getDistanceTraveled();
 
@@ -86,30 +86,32 @@ NodeList* PathSolver::getPath(Env env) {
     {
         for (int direction = UP; direction <= LEFT; direction++) {
             //adjNode gets instantiated in getAdjNode
-            if (currNode->getAdjNode(convertIntToDir(direction), &nextNode)) {
+            if (currNode->getAdjNode(convertIntToDir(direction), &nextNode))
+            {
                 nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
                 if (nextNode->isValidAdjNode(env))
                 {
                     if (this->nodesExplored->contains(nextNode, true))
                     {
+                        delete currNode;
                         solution->addElement(nextNode);
-                        currNode = nullptr;
-                        currNode = nextNode;
+                        currNode = new Node(*nextNode);
                     }
                 }
-
+                delete nextNode;
             }
-            delete nextNode;
-            nextNode = nullptr;
+
         }
     }
-    solution->reverseNodesArray();
-    currNode = nullptr;
-    nextNode = nullptr;
 
+    solution->reverseNodesArray();
     NodeList* copySolution = new NodeList(*solution);
+
+    delete currNode;
+    currNode = nullptr;
     delete solution;
     solution = nullptr;
+
     return copySolution;
 }
 
