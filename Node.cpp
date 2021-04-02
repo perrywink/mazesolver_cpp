@@ -115,6 +115,7 @@ bool Node::getAdjNode(Direction direction, Node** adjNodePtr) {
     }
 
     adjNodePtr = nullptr;
+    delete adjNodePtr;
     return adjNodeFound;
 };
 

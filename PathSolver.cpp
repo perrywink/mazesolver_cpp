@@ -70,16 +70,16 @@ void PathSolver::forwardSearch(Env env) {
 }
 
 NodeList* PathSolver::getNodesExplored() {
-    return  new NodeList(*this->nodesExplored);
+    NodeList* copyNodesExplored = new NodeList(*this->nodesExplored);
+    return copyNodesExplored;
 }
 
 NodeList* PathSolver::getPath(Env env) {
-    NodeList* solution = nullptr;
+    NodeList* solution = new NodeList();
     Node* currNode = this->nodesExplored->getNode(nodesExplored->getLength() - 1);
     Node* nextNode = nullptr;
     int dist2Goal = currNode->getDistanceTraveled();
 
-    solution = new NodeList();
     solution->addElement(currNode);
 
     for (int i = 0; i < dist2Goal; i++)
@@ -92,19 +92,25 @@ NodeList* PathSolver::getPath(Env env) {
                 {
                     if (this->nodesExplored->contains(nextNode, true))
                     {
-                        // nextNode->printNode();
                         solution->addElement(nextNode);
                         currNode = nullptr;
                         currNode = nextNode;
-                        nextNode = nullptr;
                     }
                 }
 
             }
+            delete nextNode;
+            nextNode = nullptr;
         }
     }
     solution->reverseNodesArray();
-    return solution;
+    currNode = nullptr;
+    nextNode = nullptr;
+
+    NodeList* copySolution = new NodeList(*solution);
+    delete solution;
+    solution = nullptr;
+    return copySolution;
 }
 
 //Addtional functions
