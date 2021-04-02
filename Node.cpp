@@ -52,12 +52,17 @@ void Node::printNode() {
         << ", dist_traveled:" << this->dist_traveled << std::endl;
 };
 
-bool Node::equals(Node& other) {
+bool Node::equals(Node& other, bool checkDist) {
     bool isEqual = false;
     if (this->row == other.getRow() &&
         this->col == other.getCol())
     {
         isEqual = true;
+    }
+    if (checkDist) {
+        if (this->dist_traveled != other.getDistanceTraveled()) {
+            isEqual = false;
+        }
     }
     return isEqual;
 };

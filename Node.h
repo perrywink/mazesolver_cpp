@@ -36,7 +36,7 @@ public:
     void printNode();
 
     //compares node equality
-    bool equals(Node& other);
+    bool equals(Node& other, bool checkDist);
 
     bool getIsVisited();
 

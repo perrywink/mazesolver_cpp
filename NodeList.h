@@ -37,7 +37,7 @@ public:
     //Check if all nodes in NodeList is in closedList
     bool checkAllVisited();
 
-    bool contains(Node* node);
+    bool contains(Node* node, bool checkDist);
 
     void addElement(Node* newPos, int index);
 

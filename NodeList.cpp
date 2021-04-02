@@ -63,11 +63,11 @@ bool NodeList::checkAllVisited() {
 
 }
 
-bool NodeList::contains(Node* node) {
+bool NodeList::contains(Node* node, bool checkDist) {
     bool contains = false;
     for (int i = 0; i < this->length; i++)
     {
-        if (this->nodes[i]->equals(*node)) {
+        if (this->nodes[i]->equals(*node, checkDist)) {
             contains = true;
         }
     }

@@ -46,8 +46,9 @@ int main(int argc, char** argv) {
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    NodeList* solution = pathSolver->getPath(env);
     std::cout << "Solution" << std::endl;
+    NodeList* solution = pathSolver->getPath(env);
+
     solution->printNodeList();
 
     // printEnvStdout(env, solution);

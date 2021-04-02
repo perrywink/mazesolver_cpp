@@ -38,7 +38,7 @@ void PathSolver::forwardSearch(Env env) {
                     //Assigns adjacent node to nodeQ
                     if (nodeP->getAdjNode(convertIntToDir(direction), &nodeQ)) {
                         nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
-                        if (nodeQ->isValidAdjNode(env) && !openList->contains(nodeQ)) {
+                        if (nodeQ->isValidAdjNode(env) && !openList->contains(nodeQ, false)) {
                             openList->addElement(nodeQ);
                         };
                         delete nodeQ;
@@ -50,9 +50,9 @@ void PathSolver::forwardSearch(Env env) {
             };
 
 
-        } while (!(nodeP->equals(*goalNode)) && !(openList->checkAllVisited()));
+        } while (!(nodeP->equals(*goalNode, false)) && !(openList->checkAllVisited()));
 
-        if (!(nodeP->equals(*goalNode)) && openList->checkAllVisited()) {
+        if (!(nodeP->equals(*goalNode, false)) && openList->checkAllVisited()) {
             std::cout << "Error: No Available Path" << std::endl;
         }
         this->nodesExplored = new NodeList(*closedList);
@@ -89,21 +89,19 @@ NodeList* PathSolver::getPath(Env env) {
                 nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
                 if (nextNode->isValidAdjNode(env))
                 {
-                    if (this->nodesExplored->contains(nextNode) && (nextNode->getDistanceTraveled() == dist2Goal - i))
+                    if (this->nodesExplored->contains(nextNode, true))
                     {
+                        nextNode->printNode();
                         solution->addElement(nextNode, dist2Goal - i);
-                        delete currNode;
-                        currNode = new Node(*nextNode);
+                        currNode = nullptr;
+                        currNode = nextNode;
+                        nextNode = nullptr;
                     }
                 }
 
             }
         }
     }
-
-
-    // delete solution;
-    // solution = nullptr;
     return solution;
 }
 
