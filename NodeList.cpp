@@ -15,18 +15,22 @@ NodeList::~NodeList() {
     {
         if (nodes[i] != nullptr) {
             delete nodes[i];
+            nodes[i] = nullptr;
         };
     }
 }
 
 NodeList::NodeList(NodeList& other) {
-    for (int i = 0; i < other.getLength(); i++)
+    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+    {
+        nodes[i] = nullptr;
+    }
+    this->length = other.getLength();
+    for (int i = 0; i < this->length; i++)
     {
         //Deep copy of nodes and length
         nodes[i] = new Node(*other.getNode(i));
-        this->length = other.getLength();
     }
-
 }
 
 int NodeList::getLength() {
@@ -51,18 +55,6 @@ void NodeList::printNodeList() {
         nodes[i]->printNode();
     }
 };
-
-bool NodeList::checkAllVisited() {
-    bool allVisited = true;
-    for (int i = 0; i < this->length; i++)
-    {
-        if (nodes[i]->getIsVisited() == false) {
-            allVisited = false;
-        }
-    }
-    return allVisited;
-
-}
 
 bool NodeList::contains(Node* node, bool checkDist) {
     bool contains = false;

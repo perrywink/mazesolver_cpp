@@ -38,16 +38,16 @@ public:
     //compares node equality
     bool equals(Node& other, bool checkDist);
 
-    bool getIsVisited();
+    // bool getIsVisited();
 
-    //Sets flag for checking if node is in closed list
-    void setIsVisited(bool isVisited);
+    // //Sets flag for checking if node is in closed list
+    // void setIsVisited(bool isVisited);
 
     bool isWall(Env env);
 
     bool isValidAdjNode(Env env);
 
-    bool getAdjNode(Direction direction, Node** adjNodePtr);
+    bool getAdjNode(Direction direction, Node*& adjNode);
 
 
 private:
@@ -62,7 +62,7 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    bool isVisited;
+    // bool isVisited;
 
 };
 

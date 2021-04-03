@@ -31,52 +31,52 @@ void PathSolver::forwardSearch(Env env) {
         openList->addElement(startNode);
 
         do {
-            if (findNextNodeP(&nodeP, openList, goalNode)) {
+            if (findNextNodeP(nodeP, openList, closedList, goalNode)) {
                 // iterate adjacent nodes clockwise
                 for (int direction = UP; direction <= LEFT; direction++)
                 {
                     //Assigns adjacent node to nodeQ
-                    if (nodeP->getAdjNode(convertIntToDir(direction), &nodeQ)) {
-                        nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
-                        if (nodeQ->isValidAdjNode(env) && !openList->contains(nodeQ, false)) {
+                    if (nodeP->getAdjNode(convertIntToDir(direction), nodeQ))
+                    {
+                        if (nodeQ->isValidAdjNode(env) &&
+                            !closedList->contains(nodeQ, false) &&
+                            !openList->contains(nodeQ, false))
+                        {
+                            nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
                             openList->addElement(nodeQ);
                         };
-                        delete nodeQ;
                     };
-                };
-                nodeP->setIsVisited(true);
 
+                };
                 closedList->addElement(nodeP);
             };
+        } while (!nodeP->equals(*goalNode, false));
 
-
-        } while (!(nodeP->equals(*goalNode, false)) && !(openList->checkAllVisited()));
-
-        if (!(nodeP->equals(*goalNode, false)) && openList->checkAllVisited()) {
+        //When there is no path to the goal node
+        if (!(nodeP->equals(*goalNode, false))) {
             std::cout << "Error: No Available Path" << std::endl;
         }
         this->nodesExplored = new NodeList(*closedList);
     }
 
-
     //Memory Cleanup
-    nodeP = nullptr;
-    nodeQ = nullptr;
+
+    delete nodeQ;
     delete startNode;
     delete goalNode;
     delete openList;
     delete closedList;
-
 }
 
 NodeList* PathSolver::getNodesExplored() {
-    NodeList* copyNodesExplored = new NodeList(*this->nodesExplored);
-    return copyNodesExplored;
+    return new NodeList(*this->nodesExplored);
 }
 
 NodeList* PathSolver::getPath(Env env) {
     NodeList* solution = new NodeList();
-    Node* currNode = new Node(*this->nodesExplored->getNode(nodesExplored->getLength() - 1));
+    //init currNode as last element in nodesExplored i.e. goalNode
+    Node* currNode = nullptr;
+    currNode = this->nodesExplored->getNode(nodesExplored->getLength() - 1);
     Node* nextNode = nullptr;
     int dist2Goal = currNode->getDistanceTraveled();
 
@@ -85,34 +85,36 @@ NodeList* PathSolver::getPath(Env env) {
     for (int i = 0; i < dist2Goal; i++)
     {
         for (int direction = UP; direction <= LEFT; direction++) {
-            //adjNode gets instantiated in getAdjNode
-            if (currNode->getAdjNode(convertIntToDir(direction), &nextNode))
+
+            //nextNode gets instantiated in getAdjNode
+            if (currNode->getAdjNode(convertIntToDir(direction), nextNode))
             {
-                nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
                 if (nextNode->isValidAdjNode(env))
                 {
+                    nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
                     if (this->nodesExplored->contains(nextNode, true))
                     {
-                        delete currNode; //FIXME: MEMORY ISSUE
-                        solution->addElement(nextNode);
-                        currNode = new Node(*nextNode);
+                        // delete currNode;
+                        // currNode = new Node(*nextNode);
+
+                        currNode = nextNode;
+                        nextNode = nullptr;
+
+                        solution->addElement(currNode);
                     }
                 }
-                delete nextNode;
             }
-
+            delete nextNode;
+            nextNode = nullptr;
         }
     }
 
-    solution->reverseNodesArray();
-    NodeList* copySolution = new NodeList(*solution);
-
     delete currNode;
-    currNode = nullptr;
-    delete solution;
-    solution = nullptr;
+    solution->reverseNodesArray();
 
-    return copySolution;
+    NodeList* copySol = new NodeList(*solution);
+    delete solution;
+    return copySol;
 }
 
 //Addtional functions
@@ -132,30 +134,35 @@ bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode) {
     return isFound;
 };
 
-bool PathSolver::findNextNodeP(Node** ptrNodeP, NodeList* openList, Node* goalNode) {
+bool PathSolver::findNextNodeP(Node*& nodeP, NodeList* openList, NodeList* closedList, Node* goalNode) {
     bool foundNodeP = true;
-    *ptrNodeP = nullptr;
+    //Resets node p from previous iteration
+    nodeP = nullptr;
 
     for (int i = 0; i < openList->getLength(); i++)
     {
-        if (!openList->getNode(i)->getIsVisited()) {
-            if (*ptrNodeP == nullptr) {
-                *ptrNodeP = openList->getNode(i);
+        if (!closedList->contains(openList->getNode(i), false)) {
 
+            //Inits node p to be the first unvisited node in the list
+            if (nodeP == nullptr) {
+                //frees up previous nodeP allocation before reassignment
+                // delete nodeP;
+                // nodeP = new Node(*openList->getNode(i));
+                nodeP = openList->getNode(i);
             }
 
-            if ((*ptrNodeP)->getEstimatedDist2Goal(goalNode) > openList->getNode(i)->getEstimatedDist2Goal(goalNode)) {
-                *ptrNodeP = openList->getNode(i);
-
+            //Subsequent comparisons and reassignments to new nodes with smallest est dist
+            if (nodeP->getEstimatedDist2Goal(goalNode) > openList->getNode(i)->getEstimatedDist2Goal(goalNode)) {
+                // delete nodeP;
+                // nodeP = new Node(*openList->getNode(i));
+                nodeP = openList->getNode(i);
             }
         }
     }
-
-    if (*ptrNodeP == nullptr) {
-        foundNodeP = true;
+    //No valid nodeP found
+    if (nodeP == nullptr) {
+        foundNodeP = false;
     }
-
-    ptrNodeP = nullptr;
     return foundNodeP;
 };
 
