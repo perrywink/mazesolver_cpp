@@ -93,7 +93,7 @@ NodeList* PathSolver::getPath(Env env) {
                 {
                     if (this->nodesExplored->contains(nextNode, true))
                     {
-                        delete currNode;
+                        delete currNode; //FIXME: MEMORY ISSUE
                         solution->addElement(nextNode);
                         currNode = new Node(*nextNode);
                     }
