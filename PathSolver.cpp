@@ -96,6 +96,7 @@ NodeList* PathSolver::getPath(Env env) {
                         currNode = new Node(*nextNode);
                         delete nextNode;
                         solution->addElement(currNode);
+                        //Transfer Ownership
                         nextNode = nullptr;
                     }
                 }
@@ -106,6 +107,7 @@ NodeList* PathSolver::getPath(Env env) {
     NodeList* copySol = new NodeList(*solution);
     delete solution;
 
+    //Delete for final iteration
     delete nextNode;
     delete currNode;
 
