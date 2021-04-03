@@ -45,8 +45,6 @@ public:
 
     bool isWall(Env env);
 
-    bool isValidAdjNode(Env env);
-
     bool getAdjNode(Direction direction, Node*& adjNode);
 
 

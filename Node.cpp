@@ -102,14 +102,4 @@ bool Node::getAdjNode(Direction direction, Node*& adjNode) {
     return adjNodeFound;
 };
 
-bool Node::isValidAdjNode(Env env) {
-    bool isValid = false;
-    //Assumption made that all nodes in the closed list have been marked as visited
-    //Assumption made that maze will always be enclosed in walls
-    if (!this->isWall(env)) {
-        isValid = true;
-    }
-    return isValid;
-};
-
 //--------------------------------                             

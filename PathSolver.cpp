@@ -35,10 +35,9 @@ void PathSolver::forwardSearch(Env env) {
                 // iterate adjacent nodes clockwise
                 for (int direction = UP; direction <= LEFT; direction++)
                 {
-                    //Assigns adjacent node to nodeQ
                     if (nodeP->getAdjNode(convertIntToDir(direction), nodeQ))
                     {
-                        if (nodeQ->isValidAdjNode(env) &&
+                        if (!nodeQ->isWall(env) &&
                             !closedList->contains(nodeQ, false) &&
                             !openList->contains(nodeQ, false))
                         {
@@ -76,7 +75,7 @@ NodeList* PathSolver::getPath(Env env) {
     NodeList* solution = new NodeList();
     //init currNode as last element in nodesExplored i.e. goalNode
     Node* currNode = nullptr;
-    currNode = this->nodesExplored->getNode(nodesExplored->getLength() - 1);
+    currNode = new Node(*this->nodesExplored->getNode(nodesExplored->getLength() - 1));
     Node* nextNode = nullptr;
     int dist2Goal = currNode->getDistanceTraveled();
 
@@ -85,35 +84,31 @@ NodeList* PathSolver::getPath(Env env) {
     for (int i = 0; i < dist2Goal; i++)
     {
         for (int direction = UP; direction <= LEFT; direction++) {
-
-            //nextNode gets instantiated in getAdjNode
+            //nextNode gets assigned to an object in getAdjNode
             if (currNode->getAdjNode(convertIntToDir(direction), nextNode))
             {
-                if (nextNode->isValidAdjNode(env))
+                if (!nextNode->isWall(env))
                 {
                     nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
                     if (this->nodesExplored->contains(nextNode, true))
                     {
-                        // delete currNode;
-                        // currNode = new Node(*nextNode);
-
-                        currNode = nextNode;
-                        nextNode = nullptr;
-
+                        delete currNode;
+                        currNode = new Node(*nextNode);
+                        delete nextNode;
                         solution->addElement(currNode);
+                        nextNode = nullptr;
                     }
                 }
             }
-            delete nextNode;
-            nextNode = nullptr;
         }
     }
-
-    delete currNode;
     solution->reverseNodesArray();
-
     NodeList* copySol = new NodeList(*solution);
     delete solution;
+
+    delete nextNode;
+    delete currNode;
+
     return copySol;
 }
 
