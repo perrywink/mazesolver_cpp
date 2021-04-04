@@ -10,7 +10,8 @@ Node::Node(int row, int col, int dist_traveled)
 }
 
 Node::~Node() {
-    // TODO
+    //Nothing to delete
+    //Everything is stack allocated
 }
 
 int Node::getRow() {
