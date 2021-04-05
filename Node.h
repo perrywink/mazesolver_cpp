@@ -19,11 +19,11 @@ public:
     // get column-coodinate of the node
     int getCol();
 
-    //getter and setter for distance traveled
+    // getter and setter for distance traveled
     int getDistanceTraveled();
     void setDistanceTraveled(int dist_traveled);
 
-    //getter for estimated dist to goal - need to return -> Manhatten distance + distance traveled
+    // getter for estimated dist to goal - need to return -> Manhatten distance + distance traveled
     int getEstimatedDist2Goal(Node* goal);
 
     /*                                           */
@@ -32,16 +32,12 @@ public:
     //Node Copy Constructor
     Node(Node& other);
 
-    //print Node 
+    // helper method to print Node
     void printNode();
 
-    //compares node equality
+    // compares node equality
+    // checkDist bool determines if equality should also be determined by dist_travelled field
     bool equals(Node& other, bool checkDist);
-
-    // bool getIsVisited();
-
-    // //Sets flag for checking if node is in closed list
-    // void setIsVisited(bool isVisited);
 
     bool isWall(Env env);
 
@@ -60,7 +56,6 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    // bool isVisited;
 
 };
 

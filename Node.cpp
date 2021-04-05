@@ -11,7 +11,7 @@ Node::Node(int row, int col, int dist_traveled)
 
 Node::~Node() {
     //Nothing to delete
-    //Everything is stack allocated
+    //Node fields are stack allocated
 }
 
 int Node::getRow() {

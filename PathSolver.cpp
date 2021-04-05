@@ -21,22 +21,25 @@ void PathSolver::forwardSearch(Env env) {
     Node* nodeP = nullptr;
     Node* nodeQ = nullptr;
 
-    //only execute the algo if start and goal nodes found
+    // only execute the algo if start and goal nodes found
     if (foundStart && foundGoal) {
 
-        //init lists
+        // init lists
         openList = new NodeList();
         closedList = new NodeList();
 
         openList->addElement(startNode);
 
         do {
+            // nodeP is assigned in findNextNodeP()
             if (findNextNodeP(nodeP, openList, closedList, goalNode)) {
-                // iterate adjacent nodes clockwise
+                //  iterate adjacent nodes clockwise
                 for (int direction = UP; direction <= LEFT; direction++)
                 {
+                    // nodeQ gets assigned a node in getAdjNode
                     if (nodeP->getAdjNode(convertIntToDir(direction), nodeQ))
                     {
+                        // Add node to open list if conditions are met
                         if (!nodeQ->isWall(env) &&
                             !closedList->contains(nodeQ, false) &&
                             !openList->contains(nodeQ, false))
@@ -51,15 +54,17 @@ void PathSolver::forwardSearch(Env env) {
             };
         } while (!nodeP->equals(*goalNode, false));
 
-        //When there is no path to the goal node
+        // When there is no path to the goal node
         if (!(nodeP->equals(*goalNode, false))) {
             std::cout << "Error: No Available Path" << std::endl;
         }
         this->nodesExplored = new NodeList(*closedList);
     }
 
-    //Memory Cleanup
+    delete nodeP;
+    nodeP = nullptr;
 
+    // Memory Cleanup
     delete nodeQ;
     delete startNode;
     delete goalNode;
@@ -68,15 +73,20 @@ void PathSolver::forwardSearch(Env env) {
 }
 
 NodeList* PathSolver::getNodesExplored() {
+    // returns a deep copy of nodesExplored
     return new NodeList(*this->nodesExplored);
 }
 
 NodeList* PathSolver::getPath(Env env) {
     NodeList* solution = new NodeList();
-    //init currNode as last element in nodesExplored i.e. goalNode
+
+    // init currNode as last element in nodesExplored i.e. goalNode
     Node* currNode = nullptr;
     currNode = new Node(*this->nodesExplored->getNode(nodesExplored->getLength() - 1));
+
     Node* nextNode = nullptr;
+
+    // distance of path from start to finish
     int dist2Goal = currNode->getDistanceTraveled();
 
     solution->addElement(currNode);
@@ -84,7 +94,7 @@ NodeList* PathSolver::getPath(Env env) {
     for (int i = 0; i < dist2Goal; i++)
     {
         for (int direction = UP; direction <= LEFT; direction++) {
-            //nextNode gets assigned to an object in getAdjNode
+            // nextNode gets assigned a node in getAdjNode
             if (currNode->getAdjNode(convertIntToDir(direction), nextNode))
             {
                 if (!nextNode->isWall(env))
@@ -92,29 +102,32 @@ NodeList* PathSolver::getPath(Env env) {
                     nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
                     if (this->nodesExplored->contains(nextNode, true))
                     {
+                        // memory cleanup before assignment to prevent dangling pointer
                         delete currNode;
                         currNode = new Node(*nextNode);
-                        delete nextNode;
                         solution->addElement(currNode);
-                        //Transfer Ownership
+
+                        // nextNode memory cleanup before next iteration
+                        delete nextNode;
                         nextNode = nullptr;
                     }
                 }
             }
         }
     }
+    // reverse solution NodeList for correct order of nodes in path
     solution->reverseNodesArray();
     NodeList* copySol = new NodeList(*solution);
     delete solution;
 
-    //Delete for final iteration
+    // Nodes memory cleanup for final iteration
     delete nextNode;
     delete currNode;
 
     return copySol;
 }
 
-//Addtional functions
+// Addtional functions
 
 bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode) {
     bool isFound = false;
@@ -133,30 +146,29 @@ bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode) {
 
 bool PathSolver::findNextNodeP(Node*& nodeP, NodeList* openList, NodeList* closedList, Node* goalNode) {
     bool foundNodeP = true;
-    //Resets node p from previous iteration
+
+    // Cleans up memory from previous iteration
+    delete nodeP;
     nodeP = nullptr;
 
     for (int i = 0; i < openList->getLength(); i++)
     {
         if (!closedList->contains(openList->getNode(i), false)) {
 
-            //Inits node p to be the first unvisited node in the list
+            // Inits node p to be the first unvisited node in the list
             if (nodeP == nullptr) {
-                //frees up previous nodeP allocation before reassignment
-                // delete nodeP;
-                // nodeP = new Node(*openList->getNode(i));
-                nodeP = openList->getNode(i);
+                // Deep copy of node to prevent shared object ownership
+                nodeP = new Node(*openList->getNode(i));
             }
 
-            //Subsequent comparisons and reassignments to new nodes with smallest est dist
+            // Subsequent comparisons and reassignments to new nodes with smallest est dist
             if (nodeP->getEstimatedDist2Goal(goalNode) > openList->getNode(i)->getEstimatedDist2Goal(goalNode)) {
-                // delete nodeP;
-                // nodeP = new Node(*openList->getNode(i));
-                nodeP = openList->getNode(i);
+                delete nodeP;
+                nodeP = new Node(*openList->getNode(i));
             }
         }
     }
-    //No valid nodeP found
+    // No valid nodeP found
     if (nodeP == nullptr) {
         foundNodeP = false;
     }
@@ -164,7 +176,7 @@ bool PathSolver::findNextNodeP(Node*& nodeP, NodeList* openList, NodeList* close
 };
 
 Direction PathSolver::convertIntToDir(int dirInt) {
-    //Set to default value of UP first
+    // Set to default value of UP first
     Direction direction = UP;
     if (dirInt == 0) {
         direction = UP;
