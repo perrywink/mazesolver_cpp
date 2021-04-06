@@ -2,6 +2,7 @@
 #include <iostream>
 
 NodeList::NodeList() {
+    nodes = new Node * [NODE_LIST_ARRAY_MAX_SIZE];
     for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
     {
         nodes[i] = nullptr;
@@ -21,10 +22,7 @@ NodeList::~NodeList() {
 }
 
 NodeList::NodeList(NodeList& other) {
-    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
-    {
-        nodes[i] = nullptr;
-    }
+    nodes = new Node * [NODE_LIST_ARRAY_MAX_SIZE];
     this->length = other.getLength();
     for (int i = 0; i < this->length; i++)
     {

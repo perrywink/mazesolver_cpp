@@ -7,13 +7,16 @@
 #include "Node.h"
 #include "NodeList.h"
 #include "PathSolver.h"
+#include "milestone4.h"
 
 // Helper test functions
 void testNode();
 void testNodeList();
 
 // Read a environment from standard input.
-void readEnvStdin(Env env);
+void readEnvStdin(Env env, char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int numRows, int numCols);
+
+void getDimensions(char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int& numRows, int& numCols);
 
 // Print out a Environment to standard output with path.
 // To be implemented for Milestone 3
@@ -30,9 +33,19 @@ int main(int argc, char** argv) {
     // testNodeList();
     // std::cout << "DONE TESTING" << std::endl << std::endl;
 
+    //buffer to store env readin
+    char buffer[MAX_ENV_DIM][MAX_ENV_DIM];
+
+    //read in file to recognize how many rows and cols
+    int numRows = 0;
+    int numCols = 0;
+    getDimensions(buffer, numRows, numCols);
+
+    //allocate memory accordingly
     // Load Environment 
-    Env env;
-    readEnvStdin(env);
+    Env env = make_env(numRows, numCols);
+
+    readEnvStdin(env, buffer, numRows, numCols);
 
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
@@ -48,18 +61,21 @@ int main(int argc, char** argv) {
 
     printEnvStdout(env, solution);
 
+    delete_env(env, numRows, numCols);
     delete pathSolver;
     delete exploredPositions;
     delete solution;
 
 }
 
-void readEnvStdin(Env env) {
-    for (int row = 0; row < ENV_DIM && !std::cin.eof(); row++)
+void readEnvStdin(Env env, char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int numRows, int numCols) {
+    //reset cin flags
+    std::cin.clear();
+    for (int row = 0; row < numRows && !std::cin.eof(); row++)
     {
-        for (int col = 0; col < ENV_DIM; col++)
+        for (int col = 0; col < numCols; col++)
         {
-            std::cin >> env[row][col];
+            env[row][col] = buffer[row][col];
         }
     }
 }
@@ -150,4 +166,25 @@ void testNodeList() {
     nodeList->printNodeList();
 
     delete nodeList;
+}
+
+void getDimensions(char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int& numRows, int& numCols) {
+    int row = 0;
+    int col = 0;
+    int numNodes = 0;
+
+    while (!std::cin.eof()) {
+        std::cin.get(buffer[row][col]);
+        if (buffer[row][col] != '\n' && !std::cin.eof()) {
+            ++numNodes;
+            ++col;
+        }
+        else {
+            ++numRows;
+            ++row;
+            col = 0;
+        }
+    }
+
+    numCols = numNodes / numRows;
 }

@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/assign1",
-      "args": ["<test/test_alt_paths.env"],
+      "args": ["<test/test_small.env"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],

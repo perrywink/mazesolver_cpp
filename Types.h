@@ -7,9 +7,12 @@
 #define ENV_DIM                     20
 #define NODE_LIST_ARRAY_MAX_SIZE    4*(ENV_DIM * ENV_DIM)
 
+//Milestone 4 : Maximum Allowable Env Dimensions
+#define MAX_ENV_DIM                     2000
+
 // A 2D array to represent the environment or observations
 // REMEMBER: in a environment, the location (x,y) is found by maze[y][x]!
-typedef char Env[ENV_DIM][ENV_DIM];
+typedef char** Env;
 
 #define SYMBOL_WALL     '='
 #define SYMBOL_EMPTY    '.'
