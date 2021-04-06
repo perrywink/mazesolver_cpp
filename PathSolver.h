@@ -31,8 +31,6 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    bool findNodeInEnv(Env env, char targetNod, Node** foundNode);
-    bool findNextNodeP(Node*& nodeP, NodeList* openList, NodeList* closedList, Node* goalNode);
 
 private:
     /*                                           */
@@ -45,8 +43,16 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    //private helper method to convert int into direction 
+    // Private helper methods 
+
+    // Converts integer into direction enums
     Direction convertIntToDir(int dirInt);
+
+    // Finds the start and goal nodes in env
+    bool findNodeInEnv(Env env, char targetNod, Node** foundNode);
+
+    // Selects the next node P
+    bool findNextNodeP(Node*& nodeP, NodeList* openList, NodeList* closedList, Node* goalNode);
 
 };
 
