@@ -1,3 +1,13 @@
+/*
+Section 3.5 answer:
+The main approach used for the algorithm's implementation was to use boolean-returning helper functions to
+control the flow as seen in PathSolver.cpp. This approach also helped create smaller portions of code which
+could be tested for consistency. A notable issue encountered was with comparing nodes. The criterias for 2
+nodes being equal in the forward search algorithm differ from that of in the backtracking algorithm (Milestone 3).
+This was solved by using a boolean "switch" to alter these criterias. Otherwise, Milestone 3's backtracking
+algorithm shared a lot of similarities with the forward search algorithm.
+*/
+
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
