@@ -72,6 +72,7 @@ void PathSolver::forwardSearch(Env env) {
     delete closedList;
 }
 
+//Milestone 2-3 getNodesExplored
 NodeList* PathSolver::getNodesExplored() {
     // returns a deep copy of nodesExplored
     return new NodeList(*this->nodesExplored);
@@ -196,6 +197,8 @@ Direction PathSolver::convertIntToDir(int dirInt) {
     return direction;
 };
 
+
+//The functions below are overloaded functions for milestone 4
 void PathSolver::forwardSearch(Env env, int numRows, int numCols) {
     Node* startNode = nullptr;
     Node* goalNode = nullptr;

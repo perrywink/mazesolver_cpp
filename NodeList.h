@@ -65,9 +65,9 @@ private:
     /*                                           */
     //Milestone 4 dynamic Nodelist maxLen
     static int maxNodeListLen;
+    //Calculates the max NodeList Length for the given env dimensions
+    void calcMaxNodeListLen(int numRows, int numCols);
 };
-
-
 
 
 #endif //COSC_ASSIGN_ONE_NODELIST

@@ -9,6 +9,7 @@
 
 //Milestone 4 : Maximum Allowable Env Dimensions
 #define MAX_ENV_DIM                     2000
+#define DEFAULT_LIST_LEN                0
 
 // A 2D array to represent the environment or observations
 // REMEMBER: in a environment, the location (x,y) is found by maze[y][x]!
