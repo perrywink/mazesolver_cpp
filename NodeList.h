@@ -41,6 +41,12 @@ public:
 
     void reverseNodesArray();
 
+    //NodeList Constructor and Deconstructor Overload for Milestone 4
+    NodeList(int numRows, int numCols);
+
+    //NodeList Copy Constructo for Milestone 4
+    NodeList(NodeList& other, int numRows, int numCols);
+
 
 private:
     /*                                           */
@@ -57,7 +63,8 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-
+    //Milestone 4 dynamic Nodelist maxLen
+    static int maxNodeListLen;
 };
 
 

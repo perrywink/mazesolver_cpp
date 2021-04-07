@@ -1,7 +1,3 @@
-#ifndef COSC_ASSIGN_ONE_M4
-#define COSC_ASSIGN_ONE_M4
-
-#include "Types.h"
 /*
  * This function is to help you dynamically allocate
  *  memory for a generic 2D Environemnt.
@@ -33,5 +29,3 @@ void delete_env(Env env, int rows, int cols) {
 
    return;
 }
-
-#endif //COSC_ASSIGN_ONE_M4

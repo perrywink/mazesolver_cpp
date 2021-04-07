@@ -128,7 +128,6 @@ NodeList* PathSolver::getPath(Env env) {
 }
 
 // Addtional functions
-
 bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode) {
     bool isFound = false;
     for (int row = 0; row < ENV_DIM && !std::cin.eof(); row++)
@@ -197,5 +196,135 @@ Direction PathSolver::convertIntToDir(int dirInt) {
     return direction;
 };
 
+void PathSolver::forwardSearch(Env env, int numRows, int numCols) {
+    Node* startNode = nullptr;
+    Node* goalNode = nullptr;
 
+    bool foundStart = findNodeInEnv(env, SYMBOL_START, &startNode, numRows, numCols);
+    bool foundGoal = findNodeInEnv(env, SYMBOL_GOAL, &goalNode, numRows, numCols);
+
+    NodeList* openList = nullptr;
+    NodeList* closedList = nullptr;
+    Node* nodeP = nullptr;
+    Node* nodeQ = nullptr;
+
+    // only execute the algo if start and goal nodes found
+    if (foundStart && foundGoal) {
+
+        // init lists
+        openList = new NodeList(numRows, numCols);
+        closedList = new NodeList(numRows, numCols);
+
+        openList->addElement(startNode);
+
+        do {
+            // nodeP is assigned in findNextNodeP()
+            if (findNextNodeP(nodeP, openList, closedList, goalNode)) {
+                //  iterate adjacent nodes clockwise
+                for (int direction = UP; direction <= LEFT; direction++)
+                {
+                    // nodeQ gets assigned a node in getAdjNode
+                    if (nodeP->getAdjNode(convertIntToDir(direction), nodeQ))
+                    {
+                        // Add node to open list if conditions are met
+                        if (!nodeQ->isWall(env) &&
+                            !closedList->contains(nodeQ, false) &&
+                            !openList->contains(nodeQ, false))
+                        {
+                            nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
+                            openList->addElement(nodeQ);
+                        };
+                    };
+
+                };
+                closedList->addElement(nodeP);
+            };
+        } while (!nodeP->equals(*goalNode, false));
+
+        // When there is no path to the goal node
+        if (!(nodeP->equals(*goalNode, false))) {
+            std::cout << "Error: No Available Path" << std::endl;
+        }
+        this->nodesExplored = new NodeList(*closedList, numRows, numCols);
+    }
+
+    delete nodeP;
+    nodeP = nullptr;
+
+    // Memory Cleanup
+    delete nodeQ;
+    delete startNode;
+    delete goalNode;
+    delete openList;
+    delete closedList;
+}
+
+bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode, int numRows, int numCols) {
+    bool isFound = false;
+    for (int row = 0; row < numRows && !std::cin.eof(); row++)
+    {
+        for (int col = 0; col < numCols; col++)
+        {
+            if (env[row][col] == targetNode) {
+                isFound = true;
+                *foundNode = new Node(row, col, 0);
+            }
+        }
+    }
+    return isFound;
+};
+
+NodeList* PathSolver::getPath(Env env, int numRows, int numCols) {
+    NodeList* solution = new NodeList(numRows, numCols);
+
+    // init currNode as last element in nodesExplored i.e. goalNode
+    Node* currNode = nullptr;
+    currNode = new Node(*this->nodesExplored->getNode(nodesExplored->getLength() - 1));
+
+    Node* nextNode = nullptr;
+
+    // distance of path from start to finish
+    int dist2Goal = currNode->getDistanceTraveled();
+
+    solution->addElement(currNode);
+
+    for (int i = 0; i < dist2Goal; i++)
+    {
+        for (int direction = UP; direction <= LEFT; direction++) {
+            // nextNode gets assigned a node in getAdjNode
+            if (currNode->getAdjNode(convertIntToDir(direction), nextNode))
+            {
+                if (!nextNode->isWall(env))
+                {
+                    nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
+                    if (this->nodesExplored->contains(nextNode, true))
+                    {
+                        // memory cleanup before assignment to prevent dangling pointer
+                        delete currNode;
+                        currNode = new Node(*nextNode);
+                        solution->addElement(currNode);
+
+                        // nextNode memory cleanup before next iteration
+                        delete nextNode;
+                        nextNode = nullptr;
+                    }
+                }
+            }
+        }
+    }
+    // reverse solution NodeList for correct order of nodes in path
+    solution->reverseNodesArray();
+    NodeList* copySol = new NodeList(*solution, numRows, numCols);
+    delete solution;
+
+    // Nodes memory cleanup for final iteration
+    delete nextNode;
+    delete currNode;
+
+    return copySol;
+}
+
+NodeList* PathSolver::getNodesExplored(int numRows, int numCols) {
+    return new NodeList(*this->nodesExplored, numRows, numCols);
+};
 //-----------------------------

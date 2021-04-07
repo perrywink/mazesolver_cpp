@@ -2,7 +2,6 @@
 #include <iostream>
 
 NodeList::NodeList() {
-    nodes = new Node * [NODE_LIST_ARRAY_MAX_SIZE];
     for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
     {
         nodes[i] = nullptr;
@@ -10,19 +9,31 @@ NodeList::NodeList() {
     this->length = 0;
 }
 
+// Original NodeList Destructor for Milestone 2-3
+// NodeList::~NodeList() {
+//     //nodes cleanup
+//     for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+//     {
+//         if (nodes[i] != nullptr) {
+//             delete nodes[i];
+//             nodes[i] = nullptr;
+//         };
+//     }
+// }
+
 NodeList::~NodeList() {
     //nodes cleanup
-    for (int i = 0; i < NODE_LIST_ARRAY_MAX_SIZE; i++)
+    for (int i = 0; i < NodeList::maxNodeListLen; i++)
     {
         if (nodes[i] != nullptr) {
             delete nodes[i];
             nodes[i] = nullptr;
         };
     }
+    delete nodes;
 }
 
 NodeList::NodeList(NodeList& other) {
-    nodes = new Node * [NODE_LIST_ARRAY_MAX_SIZE];
     this->length = other.getLength();
     for (int i = 0; i < this->length; i++)
     {
@@ -74,4 +85,27 @@ void NodeList::reverseNodesArray() {
     }
     tmp = nullptr;
 
+}
+
+int NodeList::maxNodeListLen = 0;
+
+NodeList::NodeList(int numRows, int numCols) {
+    NodeList::maxNodeListLen = 4 * (numRows * numCols);
+    nodes = new Node * [maxNodeListLen];
+    for (int i = 0; i < maxNodeListLen; i++)
+    {
+        nodes[i] = nullptr;
+    }
+    this->length = 0;
+}
+
+NodeList::NodeList(NodeList& other, int numRows, int numCols) {
+    NodeList::maxNodeListLen = 4 * (numRows * numCols);
+    nodes = new Node * [maxNodeListLen];
+    this->length = other.getLength();
+    for (int i = 0; i < this->length; i++)
+    {
+        //Deep copy of nodes and length
+        nodes[i] = new Node(*other.getNode(i));
+    }
 }

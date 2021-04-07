@@ -34,6 +34,12 @@ public:
     bool findNodeInEnv(Env env, char targetNod, Node** foundNode);
     bool findNextNodeP(Node*& nodeP, NodeList* openList, NodeList* closedList, Node* goalNode);
 
+    //Milestone 4 Overloaded Functions
+    void forwardSearch(Env env, int numRows, int numCols);
+    bool findNodeInEnv(Env env, char targetNod, Node** foundNode, int numRows, int numCols);
+    NodeList* getPath(Env env, int numRows, int numCols);
+    NodeList* getNodesExplored(int numRows, int numCols);
+
 private:
     /*                                           */
     /* DO NOT MOFIFY THESE VARIABLES             */
