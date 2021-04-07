@@ -41,6 +41,12 @@ public:
 
     void reverseNodesArray();
 
+    //NodeList Constructor and Deconstructor Overload for Milestone 4
+    NodeList(int numRows, int numCols);
+
+    //NodeList Copy Constructo for Milestone 4
+    NodeList(NodeList& other, int numRows, int numCols);
+
 
 private:
     /*                                           */
@@ -49,7 +55,7 @@ private:
 
     // NodeList: list of node objects
     // You may assume a fixed size for M1, M2, M3
-    Node* nodes[NODE_LIST_ARRAY_MAX_SIZE];
+    Node** nodes;
 
     // Number of nodes currently in the NodeList
     int length;
@@ -57,10 +63,11 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-
+    //Milestone 4 dynamic Nodelist maxLen
+    static int maxNodeListLen;
+    //Calculates the max NodeList Length for the given env dimensions
+    void calcMaxNodeListLen(int numRows, int numCols);
 };
-
-
 
 
 #endif //COSC_ASSIGN_ONE_NODELIST

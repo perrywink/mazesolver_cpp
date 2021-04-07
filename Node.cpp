@@ -103,4 +103,5 @@ bool Node::getAdjNode(Direction direction, Node*& adjNode) {
     return adjNodeFound;
 };
 
+
 //--------------------------------                             

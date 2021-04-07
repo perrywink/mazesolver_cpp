@@ -1,11 +1,14 @@
 /*
 Section 3.5 answer:
-The main approach used for the algorithm's implementation was to use boolean-returning helper functions to
-control the flow as seen in PathSolver.cpp. This approach also helped create smaller portions of code which
-could be tested for consistency. A notable issue encountered was with comparing nodes. The criterias for 2
-nodes being equal in the forward search algorithm differ from that of in the backtracking algorithm (Milestone 3).
-This was solved by using a boolean "switch" to alter these criterias. Otherwise, Milestone 3's backtracking
-algorithm shared a lot of similarities with the forward search algorithm.
+The main approach used for the algorithm's implementation was to use boolean-returning helper functions for
+flow control. This approach also helped create smaller testable portions of code. A notable issue encountered
+was with comparing nodes. The criterias for 2 nodes being equal in the forward search algorithm differ from
+that of in the backtracking algorithm (Milestone 3). This was solved by using a boolean "switch" to alter
+these criterias. Otherwise, Milestone 3's backtracking algorithm shared a lot of similarities with the forward
+search algorithm.For Milestone 4, a buffer was used to read in and store the environment (as long as it stayed
+within 2000 x 2000). This allowed for checking the number of rows and columns and allocating the appropiate
+memory needed for storing the environment. I then overloaded all the functions which dealt with the NodeList
+and environment so that they could allocate memory/ loop correctly according to the number of rows and columns.
 */
 
 #include <iostream>
@@ -23,11 +26,17 @@ void testNode();
 void testNodeList();
 
 // Read a environment from standard input.
-void readEnvStdin(Env env);
+void readEnvStdin(Env env, char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int numRows, int numCols);
+
+void getDimensions(char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int& numRows, int& numCols);
 
 // Print out a Environment to standard output with path.
 // To be implemented for Milestone 3
-void printEnvStdout(Env env, NodeList* solution);
+void printEnvStdout(Env env, NodeList* solution, int numRows, int numCols);
+
+// Milestone 4 Methods
+Env make_env(const int rows, const int cols);
+void delete_env(Env env, int rows, int cols);
 
 
 int main(int argc, char** argv) {
@@ -40,41 +49,55 @@ int main(int argc, char** argv) {
     // testNodeList();
     // std::cout << "DONE TESTING" << std::endl << std::endl;
 
+    //buffer to store env readin
+    char buffer[MAX_ENV_DIM][MAX_ENV_DIM];
+
+    //read in file to recognize how many rows and cols
+    int numRows = 0;
+    int numCols = 0;
+    getDimensions(buffer, numRows, numCols);
+
+    //reset cin flags
+    std::cin.clear();
+
+    //allocate memory accordingly
     // Load Environment 
-    Env env;
-    readEnvStdin(env);
+    Env env = make_env(numRows, numCols);
+
+    readEnvStdin(env, buffer, numRows, numCols);
 
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
     PathSolver* pathSolver = new PathSolver();
-    pathSolver->forwardSearch(env);
+    pathSolver->forwardSearch(env, numRows, numCols);
 
     NodeList* exploredPositions = nullptr;
-    exploredPositions = pathSolver->getNodesExplored();
+    exploredPositions = pathSolver->getNodesExplored(numRows, numCols);
 
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    NodeList* solution = pathSolver->getPath(env);
+    NodeList* solution = pathSolver->getPath(env, numRows, numCols);
 
-    printEnvStdout(env, solution);
+    printEnvStdout(env, solution, numRows, numCols);
 
+    delete_env(env, numRows, numCols);
     delete pathSolver;
     delete exploredPositions;
     delete solution;
 
 }
 
-void readEnvStdin(Env env) {
-    for (int row = 0; row < ENV_DIM && !std::cin.eof(); row++)
+void readEnvStdin(Env env, char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int numRows, int numCols) {
+    for (int row = 0; row < numRows && !std::cin.eof(); row++)
     {
-        for (int col = 0; col < ENV_DIM; col++)
+        for (int col = 0; col < numCols; col++)
         {
-            std::cin >> env[row][col];
+            env[row][col] = buffer[row][col];
         }
     }
 }
 
-void printEnvStdout(Env env, NodeList* solution) {
+void printEnvStdout(Env env, NodeList* solution, int numRows, int numCols) {
     //currNode and nextNode's memory will be handled when delete solution is called
     Node* currNode;
     Node* nextNode;
@@ -104,9 +127,9 @@ void printEnvStdout(Env env, NodeList* solution) {
         }
     }
 
-    for (int row = 0; row < ENV_DIM && !std::cin.eof(); row++)
+    for (int row = 0; row < numRows && !std::cin.eof(); row++)
     {
-        for (int col = 0; col < ENV_DIM; col++)
+        for (int col = 0; col < numCols; col++)
         {
             std::cout << env[row][col];
         }
@@ -160,4 +183,49 @@ void testNodeList() {
     nodeList->printNodeList();
 
     delete nodeList;
+}
+
+void getDimensions(char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int& numRows, int& numCols) {
+    int row = 0;
+    int col = 0;
+    int numNodes = 0;
+
+    while (!std::cin.eof()) {
+        std::cin.get(buffer[row][col]);
+        if (buffer[row][col] != '\n' && !std::cin.eof()) {
+            ++numNodes;
+            ++col;
+        }
+        else {
+            ++numRows;
+            ++row;
+            col = 0;
+        }
+    }
+
+    numCols = numNodes / numRows;
+}
+
+Env make_env(const int rows, const int cols) {
+    Env env = nullptr;
+
+    if (rows >= 0 && cols >= 0) {
+        env = new char* [rows];
+        for (int i = 0; i != rows; ++i) {
+            env[i] = new char[cols];
+        }
+    }
+
+    return env;
+}
+
+void delete_env(Env env, int rows, int cols) {
+    if (rows >= 0 && cols >= 0) {
+        for (int i = 0; i != rows; ++i) {
+            delete env[i];
+        }
+        delete env;
+    }
+
+    return;
 }
