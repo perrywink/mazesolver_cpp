@@ -1,14 +1,18 @@
 /*
 Section 3.5 answer:
-The main approach used for the algorithm's implementation was to use boolean-returning helper functions for
-flow control. This approach also helped create smaller testable portions of code. A notable issue encountered
-was with comparing nodes. The criterias for 2 nodes being equal in the forward search algorithm differ from
-that of in the backtracking algorithm (Milestone 3). This was solved by using a boolean "switch" to alter
-these criterias. Otherwise, Milestone 3's backtracking algorithm shared a lot of similarities with the forward
-search algorithm.For Milestone 4, a buffer was used to read in and store the environment (as long as it stayed
-within 2000 x 2000). This allowed for checking the number of rows and columns and allocating the appropiate
-memory needed for storing the environment. I then overloaded all the functions which dealt with the NodeList
-and environment so that they could allocate memory/ loop correctly according to the number of rows and columns.
+The main approach used for the algorithm's implementation was to use boolean-
+returning helper functions for flow control. This approach also helped create
+smaller testable portions of code. A notable issue encountered was with
+comparing nodes. The criterias for 2 nodes being equal in the forward search
+algorithm differ from that of in the backtracking algorithm (Milestone 3). This
+was solved by using a boolean "switch" to alter these criterias. Otherwise,
+Milestone 3's backtracking algorithm shared a lot of similarities with the
+forward search algorithm.For Milestone 4, a buffer was used to read in and store
+the environment (as long as it stayed within 2000 x 2000). This allowed for
+checking the number of rows and columns and allocating the appropiate memory
+needed for storing the environment. I then overloaded all the functions which
+dealt with the NodeList and environment so that they could allocate memory/ loop
+ correctly according to the number of rows and columns.
 */
 
 #include <iostream>
@@ -26,9 +30,11 @@ void testNode();
 void testNodeList();
 
 // Read a environment from standard input.
-void readEnvStdin(Env env, char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int numRows, int numCols);
+void readEnvStdin(Env env, char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int numRows,
+    int numCols);
 
-void getDimensions(char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int& numRows, int& numCols);
+void getDimensions(char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int& numRows,
+    int& numCols);
 
 // Print out a Environment to standard output with path.
 // To be implemented for Milestone 3
@@ -44,7 +50,8 @@ int main(int argc, char** argv) {
     // AS YOU WORK ON MILESTONE 2. YOU CAN UPDATE THEM YOURSELF
     // AS YOU GO ALONG.
     // COMMENT THESE OUT BEFORE YOU SUBMIT!!!
-    // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" << std::endl;
+    // std::cout << "TESTING - COMMENT THE OUT TESTING BEFORE YOU SUBMIT!!!" 
+    // << std::endl;
     // testNode();
     // testNodeList();
     // std::cout << "DONE TESTING" << std::endl << std::endl;
@@ -87,7 +94,8 @@ int main(int argc, char** argv) {
 
 }
 
-void readEnvStdin(Env env, char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int numRows, int numCols) {
+void readEnvStdin(Env env, char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int numRows,
+    int numCols) {
     for (int row = 0; row < numRows && !std::cin.eof(); row++)
     {
         for (int col = 0; col < numCols; col++)
@@ -98,7 +106,6 @@ void readEnvStdin(Env env, char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int numRows, i
 }
 
 void printEnvStdout(Env env, NodeList* solution, int numRows, int numCols) {
-    //currNode and nextNode's memory will be handled when delete solution is called
     Node* currNode;
     Node* nextNode;
     //Solution assumes startNode and goalNode are included
@@ -179,13 +186,16 @@ void testNodeList() {
     std::cout << getB->getDistanceTraveled() << std::endl;
 
     // Print out the NodeList
-    std::cout << "PRINTING OUT A NODELIST IS AN EXERCISE FOR YOU TO DO" << std::endl;
+    std::cout << "PRINTING OUT A NODELIST IS AN EXERCISE FOR YOU TO DO"
+        << std::endl;
     nodeList->printNodeList();
 
     delete nodeList;
 }
 
-void getDimensions(char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int& numRows, int& numCols) {
+void getDimensions(char buffer[MAX_ENV_DIM][MAX_ENV_DIM], int& numRows,
+    int& numCols) {
+
     int row = 0;
     int col = 0;
     int numNodes = 0;

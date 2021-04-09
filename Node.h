@@ -23,7 +23,8 @@ public:
     int getDistanceTraveled();
     void setDistanceTraveled(int dist_traveled);
 
-    // getter for estimated dist to goal - need to return -> Manhatten distance + distance traveled
+    // getter for estimated dist to goal - need to return -> 
+    // Manhatten distance + distance traveled
     int getEstimatedDist2Goal(Node* goal);
 
     /*                                           */
@@ -37,7 +38,7 @@ public:
     void printNode();
 
     // compares node equality
-    // checkDist bool determines if equality should also be determined by dist_travelled field
+    // checkDist bool determines if dist_travelled field should be checked
     bool equals(Node& other, bool checkDist);
 
     bool isWall(Env env);

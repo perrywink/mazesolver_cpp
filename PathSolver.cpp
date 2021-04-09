@@ -44,7 +44,9 @@ void PathSolver::forwardSearch(Env env) {
                             !closedList->contains(nodeQ, false) &&
                             !openList->contains(nodeQ, false))
                         {
-                            nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
+                            nodeQ->setDistanceTraveled(
+                                nodeP->getDistanceTraveled() + 1
+                            );
                             openList->addElement(nodeQ);
                         };
                     };
@@ -83,7 +85,9 @@ NodeList* PathSolver::getPath(Env env) {
 
     // init currNode as last element in nodesExplored i.e. goalNode
     Node* currNode = nullptr;
-    currNode = new Node(*this->nodesExplored->getNode(nodesExplored->getLength() - 1));
+    currNode = new Node(*this->nodesExplored->getNode(
+        nodesExplored->getLength() - 1)
+    );
 
     Node* nextNode = nullptr;
 
@@ -100,10 +104,13 @@ NodeList* PathSolver::getPath(Env env) {
             {
                 if (!nextNode->isWall(env))
                 {
-                    nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
+                    nextNode->setDistanceTraveled(
+                        currNode->getDistanceTraveled() - 1
+                    );
                     if (this->nodesExplored->contains(nextNode, true))
                     {
-                        // memory cleanup before assignment to prevent dangling pointer
+                        // memory cleanup before assignment 
+                        // to prevent dangling pointer
                         delete currNode;
                         currNode = new Node(*nextNode);
                         solution->addElement(currNode);
@@ -144,7 +151,9 @@ bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode) {
     return isFound;
 };
 
-bool PathSolver::findNextNodeP(Node*& nodeP, NodeList* openList, NodeList* closedList, Node* goalNode) {
+bool PathSolver::findNextNodeP(Node*& nodeP, NodeList* openList,
+    NodeList* closedList, Node* goalNode
+) {
     bool foundNodeP = true;
 
     // Cleans up memory from previous iteration
@@ -161,8 +170,12 @@ bool PathSolver::findNextNodeP(Node*& nodeP, NodeList* openList, NodeList* close
                 nodeP = new Node(*openList->getNode(i));
             }
 
-            // Subsequent comparisons and reassignments to new nodes with smallest est dist
-            if (nodeP->getEstimatedDist2Goal(goalNode) > openList->getNode(i)->getEstimatedDist2Goal(goalNode)) {
+            // Comparisons and reassignments to new nodes with smallest est dist
+            if (
+                nodeP->getEstimatedDist2Goal(goalNode) >
+                openList->getNode(i)->getEstimatedDist2Goal(goalNode)
+                )
+            {
                 delete nodeP;
                 nodeP = new Node(*openList->getNode(i));
             }
@@ -203,8 +216,10 @@ void PathSolver::forwardSearch(Env env, int numRows, int numCols) {
     Node* startNode = nullptr;
     Node* goalNode = nullptr;
 
-    bool foundStart = findNodeInEnv(env, SYMBOL_START, &startNode, numRows, numCols);
-    bool foundGoal = findNodeInEnv(env, SYMBOL_GOAL, &goalNode, numRows, numCols);
+    bool foundStart = findNodeInEnv(env, SYMBOL_START, &startNode, numRows,
+        numCols);
+    bool foundGoal = findNodeInEnv(env, SYMBOL_GOAL, &goalNode, numRows,
+        numCols);
 
     NodeList* openList = nullptr;
     NodeList* closedList = nullptr;
@@ -234,7 +249,9 @@ void PathSolver::forwardSearch(Env env, int numRows, int numCols) {
                             !closedList->contains(nodeQ, false) &&
                             !openList->contains(nodeQ, false))
                         {
-                            nodeQ->setDistanceTraveled(nodeP->getDistanceTraveled() + 1);
+                            nodeQ->setDistanceTraveled(
+                                nodeP->getDistanceTraveled() + 1
+                            );
                             openList->addElement(nodeQ);
                         };
                     };
@@ -262,7 +279,9 @@ void PathSolver::forwardSearch(Env env, int numRows, int numCols) {
     delete closedList;
 }
 
-bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode, int numRows, int numCols) {
+bool PathSolver::findNodeInEnv(Env env, char targetNode, Node** foundNode,
+    int numRows, int numCols)
+{
     bool isFound = false;
     for (int row = 0; row < numRows && !std::cin.eof(); row++)
     {
@@ -282,7 +301,9 @@ NodeList* PathSolver::getPath(Env env, int numRows, int numCols) {
 
     // init currNode as last element in nodesExplored i.e. goalNode
     Node* currNode = nullptr;
-    currNode = new Node(*this->nodesExplored->getNode(nodesExplored->getLength() - 1));
+    currNode = new Node(*this->nodesExplored->getNode(
+        nodesExplored->getLength() - 1)
+    );
 
     Node* nextNode = nullptr;
 
@@ -299,10 +320,13 @@ NodeList* PathSolver::getPath(Env env, int numRows, int numCols) {
             {
                 if (!nextNode->isWall(env))
                 {
-                    nextNode->setDistanceTraveled(currNode->getDistanceTraveled() - 1);
+                    nextNode->setDistanceTraveled(
+                        currNode->getDistanceTraveled() - 1
+                    );
                     if (this->nodesExplored->contains(nextNode, true))
                     {
-                        // memory cleanup before assignment to prevent dangling pointer
+                        // memory cleanup before assignment 
+                        // to prevent dangling pointer
                         delete currNode;
                         currNode = new Node(*nextNode);
                         solution->addElement(currNode);

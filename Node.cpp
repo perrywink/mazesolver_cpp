@@ -78,7 +78,7 @@ bool Node::isWall(Env env) {
 bool Node::getAdjNode(Direction direction, Node*& adjNode) {
     bool adjNodeFound = true;
 
-    //Note that this method assumes that the appropiate dist_travelled will be given after
+    //This method assumes that the appropiate dist_travelled will be given later
     if (direction == UP) {
         delete adjNode;
         adjNode = new Node(this->row - 1, this->col, this->dist_traveled);
